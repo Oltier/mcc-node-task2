@@ -20,32 +20,32 @@ Object.keys(operations)
             const param2 = req.query.second;
 
             if(typeof param1 === 'undefined' && typeof param2 === 'undefined') {
-                res.json({message: 'Missing both parameters'});
+                res.status(400).json({message: 'Missing both parameters'});
                 return;
             }
 
             if(typeof param1 === 'undefined') {
-                res.json({message: 'Missing first required parameter'});
+                res.status(400).json({message: 'Missing first required parameter'});
                 return;
             }
 
             if(typeof param2 === 'undefined') {
-                res.json({message: 'Missing second required parameter'});
+                res.status(400).json({message: 'Missing second required parameter'});
                 return;
             }
 
             if(!isNumeric(param1) && !isNumeric(param2)) {
-                res.json({message: 'Both parameters are not numbers'});
+                res.status(400).json({message: 'Both parameters are not numbers'});
                 return;
             }
 
             if(!isNumeric(param1)) {
-                res.json({message: 'The first parameter is not a number'});
+                res.status(400).json({message: 'The first parameter is not a number'});
                 return;
             }
 
             if(!isNumeric(param2)) {
-                res.json({message: 'The second parameter is not a number'});
+                res.status(400).json({message: 'The second parameter is not a number'});
                 return;
             }
 
@@ -53,7 +53,7 @@ Object.keys(operations)
             const snd = parseFloat(param2);
 
             if(op === 'div' && snd === 0) {
-                res.json({message: 'Division by zero is not allowed'});
+                res.status(400).json({message: 'Division by zero is not allowed'});
                 return;
             }
 

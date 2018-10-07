@@ -39,12 +39,16 @@ router.get('/images', (req, res, next) => {
             request
                 .head(`${baseApacheUrl}${url}`)
                 .on('response', (response) => {
-                    const name = response.getResponseHeader('Content-Disposition').match(/filename="(.+)"/)[1];
-                    const type = response.getResponseHeader('Content-Type').split('/')[1].toUpperCase();
-                    const size = `${parseFloat(response.getResponseHeader("Content-Length")) / 1024} Kb`;
+                    const contentDisposition = response.headers['content-disposition'] || "filename=def.png";
+                    const name = contentDisposition.match(/filename=(.+)/)[1];
+                    const contentType = response.headers['content-type'] || "image/pngDef";
+                    const type = contentType.split('/')[1].toUpperCase();
+                    const size = `${parseFloat(response.headers['content-length']) / 1000} Kb`;
                     const obj = {name, type, size};
                     responses.push(obj);
                     if(responses.length === images.length) {
+                        console.error("Responses length: ", responses.length);
+                        console.error("Responses: ", responses);
                         res.json(responses);
                     }
                 })
